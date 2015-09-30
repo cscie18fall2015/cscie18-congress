@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<abbreviations>
+    <abbr short="AL" long="Alabama"/>
+    <abbr short="AK" long="Alaska"/>
+    <abbr short="AS" long="American Samoa"/>
+    <abbr short="AZ" long="Arizona"/>
+    <abbr short="AR" long="Arkansas"/>
+    <abbr short="CA" long="California"/>
+    <abbr short="CO" long="Colorado"/>
+    <abbr short="CT" long="Connecticut"/>
+    <abbr short="DE" long="Delaware"/>
+    <abbr short="DC" long="District of Columbia"/>
+    <abbr short="FM" long="Federated States of Micronesia"/>
+    <abbr short="FL" long="Florida"/>
+    <abbr short="GA" long="Georgia"/>
+    <abbr short="GU" long="Guam"/>
+    <abbr short="HI" long="Hawaii"/>
+    <abbr short="ID" long="Idaho"/>
+    <abbr short="IL" long="Illinois"/>
+    <abbr short="IN" long="Indiana"/>
+    <abbr short="IA" long="Iowa"/>
+    <abbr short="KS" long="Kansas"/>
+    <abbr short="KY" long="Kentucky"/>
+    <abbr short="LA" long="Louisiana"/>
+    <abbr short="ME" long="Maine"/>
+    <abbr short="MH" long="Marshall Islands"/>
+    <abbr short="MD" long="Maryland"/>
+    <abbr short="MA" long="Massachusetts"/>
+    <abbr short="MI" long="Michigan"/>
+    <abbr short="MN" long="Minnesota"/>
+    <abbr short="MS" long="Mississippi"/>
+    <abbr short="MO" long="Missouri"/>
+    <abbr short="MT" long="Montana"/>
+    <abbr short="NE" long="Nebraska"/>
+    <abbr short="NV" long="Nevada"/>
+    <abbr short="NH" long="New Hampshire"/>
+    <abbr short="NJ" long="New Jersey"/>
+    <abbr short="NM" long="New Mexico"/>
+    <abbr short="NY" long="New York"/>
+    <abbr short="NC" long="North Carolina"/>
+    <abbr short="ND" long="North Dakota"/>
+    <abbr short="MP" long="Northern Mariana Islands"/>
+    <abbr short="OH" long="Ohio"/>
+    <abbr short="OK" long="Oklahoma"/>
+    <abbr short="OR" long="Oregon"/>
+    <abbr short="PW" long="Palau"/>
+    <abbr short="PA" long="Pennsylvania"/>
+    <abbr short="PR" long="Puerto Rico"/>
+    <abbr short="RI" long="Rhode Island"/>
+    <abbr short="SC" long="South Carolina"/>
+    <abbr short="SD" long="South Dakota"/>
+    <abbr short="TN" long="Tennessee"/>
+    <abbr short="TX" long="Texas"/>
+    <abbr short="UT" long="Utah"/>
+    <abbr short="VT" long="Vermont"/>
+    <abbr short="VI" long="Virgin Islands"/>
+    <abbr short="VA" long="Virginia"/>
+    <abbr short="WA" long="Washington"/>
+    <abbr short="WV" long="West Virginia"/>
+    <abbr short="WI" long="Wisconsin"/>
+    <abbr short="WY" long="Wyoming"/>
+    <abbr short="rep" long="House of Representatives"/>
+    <abbr short="sen" long="Senate"/>
+    <abbr short="F" long="Female"/>
+    <abbr short="M" long="Male"/>
+</abbreviations>
