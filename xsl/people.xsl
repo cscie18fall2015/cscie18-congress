@@ -157,7 +157,7 @@
                         </xsl:choose>
                     </xsl:variable>
                     <li>
-                        <a class="btn btn-{if ($selected = true()) then 'primary' else 'default'} btn-xs" style="margin-bottom: 3px;" href="{concat('?',                             if ($selected = true()) then cscie18:remove-qs-parameter(concat(../@name,'=',@code))                             else cscie18:add-qs-parameter(../@name,@code))                             }">
+                        <a class="btn btn-{if ($selected = true()) then 'primary' else 'default'} btn-sm" style="margin-bottom: 7px;" href="{concat('?',                         if ($selected = true())                          then cscie18:remove-qs-parameter(concat(../@name,'=',@code))                         else cscie18:add-qs-parameter(../@name,@code))                         }">
                             <xsl:value-of select="."/>
                         </a>
                     </li>
@@ -172,6 +172,6 @@
     </xsl:function>
     <xsl:function name="cscie18:remove-qs-parameter">
         <xsl:param name="mypv"/>
-        <xsl:value-of select="replace($querystring,$mypv,'')"/>
+        <xsl:value-of select="replace(                                 replace($querystring,$mypv,''),                                 '&amp;&amp;','&amp;'                                 )                                 "/>
     </xsl:function>
 </xsl:stylesheet>
