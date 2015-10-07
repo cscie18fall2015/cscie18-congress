@@ -10,5 +10,4 @@
     <target>cscie18-congress</target>
     <prepare>pre-install.xql</prepare>
     <finish/>
-    <deployed>2015-09-24T10:22:48.878-04:00</deployed>
 </meta>

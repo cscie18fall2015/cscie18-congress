@@ -6,7 +6,14 @@
     <xsl:param name="querystring"/>
     <xsl:variable name="pagetitle">
         <xsl:for-each select="/congress/filters/filter[@value ne '*']/@value">
-            <xsl:value-of select="cscie18:expand(.)"/>
+            <xsl:choose>
+                <xsl:when test="../@display">
+                    <xsl:value-of select="../@display"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="cscie18:expand(.)"/>
+                </xsl:otherwise>
+            </xsl:choose>
             <xsl:choose>
                 <xsl:when test="position() = last()"/>
                 <xsl:when test="position() = last() - 1">
@@ -37,6 +44,8 @@
         </ul>
     </xsl:template>
     <xsl:template match="congress">
+        <xsl:apply-templates select="facets"/>
+        <xsl:call-template name="view_options"/>
         <xsl:choose>
             <xsl:when test="$view eq 'grid'">
                 <xsl:apply-templates select="." mode="grid"/>
@@ -76,7 +85,7 @@
     </xsl:template>
     <xsl:template match="person" mode="grid">
         <xsl:variable name="current_term" select="terms/term[@current = true()]"/>
-        <div class="col-sm-6 col-md-3">
+        <div class="col-sm-6 col-md-3 col-lg-2">
             <div class="thumbnail">
                 <img src="http://cscie18.dce.harvard.edu/govtrack/photos/{id/govtrack}-200px.jpeg" alt="{name/official_full}"/>
                 <div class="caption">
@@ -119,4 +128,50 @@
         <xsl:text>, </xsl:text>
         <xsl:value-of select="first"/>
     </xsl:template>
+    <xsl:template match="facets">
+        <div class="row">
+            <xsl:apply-templates select="facet[@name eq 'state']">
+                <xsl:with-param name="columns" select="8"/>
+            </xsl:apply-templates>
+            <xsl:apply-templates select="facet[@name ne 'state']">
+                <xsl:with-param name="columns" select="4"/>
+            </xsl:apply-templates>
+        </div>
+    </xsl:template>
+    <xsl:template match="facet">
+        <xsl:param name="columns" select="4"/>
+        <div class="col-md-{$columns}">
+            <h3>
+                <xsl:value-of select="@title"/>
+            </h3>
+            <ul class="list-inline">
+                <xsl:for-each select="item">
+                    <xsl:variable name="selected">
+                        <xsl:choose>
+                            <xsl:when test="@code  = /congress/filters/filter/@value">
+                                <xsl:value-of select="true()"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:value-of select="false()"/>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:variable>
+                    <li>
+                        <a class="btn btn-{if ($selected = true()) then 'primary' else 'default'} btn-xs" style="margin-bottom: 3px;" href="{concat('?',                             if ($selected = true()) then cscie18:remove-qs-parameter(concat(../@name,'=',@code))                             else cscie18:add-qs-parameter(../@name,@code))                             }">
+                            <xsl:value-of select="."/>
+                        </a>
+                    </li>
+                </xsl:for-each>
+            </ul>
+        </div>
+    </xsl:template>
+    <xsl:function name="cscie18:add-qs-parameter">
+        <xsl:param name="myparam"/>
+        <xsl:param name="myvalue"/>
+        <xsl:value-of select="concat($querystring,'&amp;',$myparam,'=',$myvalue)"/>
+    </xsl:function>
+    <xsl:function name="cscie18:remove-qs-parameter">
+        <xsl:param name="mypv"/>
+        <xsl:value-of select="replace($querystring,$mypv,'')"/>
+    </xsl:function>
 </xsl:stylesheet>

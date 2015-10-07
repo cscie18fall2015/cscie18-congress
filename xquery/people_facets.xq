@@ -41,5 +41,10 @@ declare function cscie18:expand
             <item code="{$item}">{cscie18:expand($item)}</item>
     }
     </facet>
-
+   <facet name="gender" title="Gender">
+  {
+  for $item in distinct-values($col/congress/person/bio/gender)
+   return <item code="{$item}">{$item}</item>
+   }
+   </facet>
 </facets>
