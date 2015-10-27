@@ -2,15 +2,6 @@ xquery version "3.0" encoding "UTF-8";
 
 module namespace local = "http://cscie18.dce.harvard.edu/congress";
 
-declare function local:dummy() as node() {
-    <dummy />
-};
-declare function local:testfunct($arg as xs:string) as xs:string {
-    let $upper := upper-case($arg)
-    return concat($upper,$upper,$upper,$upper)
-};
-
-
 declare function local:people() as node() {
 
  let $col_path := request:get-attribute('collection')
