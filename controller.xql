@@ -50,7 +50,7 @@ else if($exist:resource eq 'people') then
      <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
          <forward url="{concat($exist:controller, "/xquery/people.xq")}">
              <set-attribute name="collection" value="{concat($exist:root, $exist:controller, "/data")}"/>
-       </forward>
+         </forward>
         <view>
             <forward servlet="XSLTServlet">
                 <set-attribute name="xslt.stylesheet" value="{concat($exist:root, $exist:controller, "/xsl/people.xsl")}"/>        
@@ -58,7 +58,15 @@ else if($exist:resource eq 'people') then
                 <set-attribute name="xslt.querystring" value="{request:get-query-string()}"/>
             </forward>
         </view>
-    </dispatch>    
+    </dispatch> 
+else if($exist:resource eq 'people.pdf') then
+     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+         <forward url="{concat($exist:controller, '/xquery/pdf.xq')}">
+             <set-attribute name="collection" value="{concat($exist:root, $exist:controller, '/data')}"/>
+             <set-attribute name="appbase" value="{concat($exist:root, $exist:controller)}"/>
+             <set-attribute name="output" value="pdf"/>
+       </forward>
+    </dispatch>      
 else if($exist:resource eq 'committees') then
      <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
          <forward url="{concat($exist:controller, "/data/committees.xml")}"/>

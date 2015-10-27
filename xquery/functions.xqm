@@ -1,24 +1,28 @@
 xquery version "3.0" encoding "UTF-8";
 
-declare namespace local = "http://cscie18.dce.harvard.edu/congress";
+module namespace local = "http://cscie18.dce.harvard.edu/congress";
 
-(: lookup function :)
-declare function local:expand
-  ( $arg as xs:string? )  as xs:string {
-    if (exists($col/abbreviations/abbr[@short eq $arg]/@long))
-    then $col/abbreviations/abbr[@short eq $arg]/@long
-    else $arg
- } ;
- 
-declare variable $col_path := request:get-attribute('collection');
-declare variable $col := collection($col_path);
+declare function local:dummy() as node() {
+    <dummy />
+};
+declare function local:testfunct($arg as xs:string) as xs:string {
+    let $upper := upper-case($arg)
+    return concat($upper,$upper,$upper,$upper)
+};
 
-declare variable $state := request:get-parameter('state','*');
-declare variable $party := request:get-parameter('party','*');
-declare variable $type := request:get-parameter('type','*');
 
-declare variable $people := $col/congress/person[exists(terms/term[xs:date(start) <= current-date() and xs:date(end) >= current-date()])];
+declare function local:people() as node() {
 
+ let $col_path := request:get-attribute('collection')
+ let $col := collection($col_path)
+
+ let $state := request:get-parameter('state','*')
+ let $party := request:get-parameter('party','*')
+ let $type := request:get-parameter('type','*')
+
+ let $people := $col/congress/person[exists(terms/term[xs:date(start) <= current-date() and xs:date(end) >= current-date()])]
+
+return
 <congress>
     <filters>
     {
@@ -82,3 +86,19 @@ declare variable $people := $col/congress/person[exists(terms/term[xs:date(start
        </facet>
     </facets>
 </congress>
+
+} ;
+
+(: lookup function :)
+declare function local:expand
+  ( $arg as xs:string? )  as xs:string {
+    
+     let $col_path := request:get-attribute('collection')
+     let $col := collection($col_path)
+    return 
+    if (exists($col/abbreviations/abbr[@short eq $arg]/@long))
+    then $col/abbreviations/abbr[@short eq $arg]/@long
+    else $arg
+ } ;
+ 
+ 

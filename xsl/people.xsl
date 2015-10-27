@@ -1,30 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cscie18="http://cscie18.dce.harvard.edu" exclude-result-prefixes="xs cscie18" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://cscie18.dce.harvard.edu/congress" exclude-result-prefixes="xs local" version="2.0">
     <xsl:import href="common.xsl"/>
+    <xsl:import href="functions.xsl"/>
     <xsl:output method="html" doctype-system="about:legacy-compat"/>
     <xsl:param name="view" select="'table'"/>
     <xsl:param name="querystring"/>
-    <xsl:variable name="pagetitle">
-        <xsl:for-each select="/congress/filters/filter[@value ne '*']/@value">
-            <xsl:choose>
-                <xsl:when test="../@display">
-                    <xsl:value-of select="../@display"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:value-of select="cscie18:expand(.)"/>
-                </xsl:otherwise>
-            </xsl:choose>
-            <xsl:choose>
-                <xsl:when test="position() = last()"/>
-                <xsl:when test="position() = last() - 1">
-                    <xsl:text> and </xsl:text>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:text>, </xsl:text>
-                </xsl:otherwise>
-            </xsl:choose>
-        </xsl:for-each>
-    </xsl:variable>
     <xsl:template name="breadcrumb">
         <ol class="breadcrumb">
             <li>
@@ -36,10 +16,10 @@
     <xsl:template name="view_options">
         <ul class="nav nav-tabs" style="margin-bottom: 5px;">
             <li class="{if ($view eq 'table') then 'active' else ''}">
-                <a href="?{cscie18:changeview($querystring,'table')}">Table</a>
+                <a href="?{local:changeview($querystring,'table')}">Table</a>
             </li>
             <li class="{if ($view eq 'grid') then 'active' else ''}">
-                <a href="?{cscie18:changeview($querystring,'grid')}">Photos</a>
+                <a href="?{local:changeview($querystring,'grid')}">Photos</a>
             </li>
         </ul>
     </xsl:template>
@@ -58,6 +38,9 @@
     <xsl:template match="congress" mode="table">
         <div class="row">
             <div class="col-md-12">
+                <p class="text-right">
+                    <a target="congress-pdf" class="fa fa-file-pdf-o fa-lg" href="{local:pdflink($querystring)}">&#160;View as PDF</a>
+                </p>
                 <table class="table table-striped table-bordered">
                     <thead>
                         <tr>
@@ -95,11 +78,11 @@
                                 <xsl:value-of select="name/official_full"/>
                             </strong>
                             <br/>
-                            <xsl:value-of select="cscie18:expand($current_term/state)"/>
+                            <xsl:value-of select="local:expand($current_term/state)"/>
                             <br/>
-                            <xsl:value-of select="cscie18:expand($current_term/type)"/>
+                            <xsl:value-of select="local:expand($current_term/type)"/>
                             <br/>
-                            <xsl:value-of select="cscie18:expand($current_term/party)"/>
+                            <xsl:value-of select="local:expand($current_term/party)"/>
                         </small>
                     </p>
                 </div>
@@ -113,13 +96,13 @@
                 <xsl:apply-templates select="name"/>
             </td>
             <td>
-                <xsl:value-of select="cscie18:expand($current_term/state)"/>
+                <xsl:value-of select="local:expand($current_term/state)"/>
             </td>
             <td>
-                <xsl:value-of select="cscie18:expand($current_term/type)"/>
+                <xsl:value-of select="local:expand($current_term/type)"/>
             </td>
             <td>
-                <xsl:value-of select="cscie18:expand($current_term/party)"/>
+                <xsl:value-of select="local:expand($current_term/party)"/>
             </td>
         </tr>
     </xsl:template>
@@ -157,7 +140,7 @@
                         </xsl:choose>
                     </xsl:variable>
                     <li>
-                        <a class="btn btn-{if ($selected = true()) then 'primary' else 'default'} btn-sm" style="margin-bottom: 7px;" href="{concat('?',                         if ($selected = true())                          then cscie18:remove-qs-parameter(concat(../@name,'=',@code))                         else cscie18:add-qs-parameter(../@name,@code))                         }">
+                        <a class="btn btn-{if ($selected = true()) then 'primary' else 'default'} btn-sm" style="margin-bottom: 7px;" href="{concat('?',if ($selected = true()) then local:remove-qs-parameter($querystring,concat(../@name,'=',@code)) else local:add-qs-parameter($querystring,../@name,@code)) }">
                             <xsl:value-of select="."/>
                         </a>
                     </li>
@@ -165,13 +148,4 @@
             </ul>
         </div>
     </xsl:template>
-    <xsl:function name="cscie18:add-qs-parameter">
-        <xsl:param name="myparam"/>
-        <xsl:param name="myvalue"/>
-        <xsl:value-of select="concat($querystring,'&amp;',$myparam,'=',$myvalue)"/>
-    </xsl:function>
-    <xsl:function name="cscie18:remove-qs-parameter">
-        <xsl:param name="mypv"/>
-        <xsl:value-of select="replace(                                 replace($querystring,$mypv,''),                                 '&amp;&amp;','&amp;'                                 )                                 "/>
-    </xsl:function>
 </xsl:stylesheet>

@@ -1,7 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cscie18="http://cscie18.dce.harvard.edu" exclude-result-prefixes="xs cscie18" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://cscie18.dce.harvard.edu/congress" exclude-result-prefixes="xs local" version="2.0">
+    <xsl:import href="functions.xsl"/>
     <xsl:variable name="sitetitle">United States Congress</xsl:variable>
-    <xsl:variable name="pagetitle"/>
+    <xsl:variable name="pagetitle">
+        <xsl:for-each select="/congress/filters/filter[@value ne '*']/@value">
+            <xsl:choose>
+                <xsl:when test="../@display">
+                    <xsl:value-of select="../@display"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="local:expand(.)"/>
+                </xsl:otherwise>
+            </xsl:choose>
+            <xsl:choose>
+                <xsl:when test="position() = last()"/>
+                <xsl:when test="position() = last() - 1">
+                    <xsl:text> and </xsl:text>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:text>, </xsl:text>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:for-each>
+    </xsl:variable>
     <xsl:template match="/">
         <html lang="en">
             <head>
@@ -13,6 +34,7 @@
                     <xsl:value-of select="concat($sitetitle, ' ', $pagetitle)"/>
                 </title>
                 <xsl:comment>Bootstrap</xsl:comment>
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"/>
                 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
                 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"/>
                 <xsl:comment>HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries</xsl:comment>
@@ -48,31 +70,4 @@
         </ol>
     </xsl:template>
     <xsl:template name="view_options"/>
-    <xsl:function name="cscie18:expand">
-        <xsl:param name="myshortname"/>
-        <xsl:variable name="doc_abbr" select="'../data/abbreviations.xml'"/>
-        <xsl:choose>
-            <xsl:when test="exists(document($doc_abbr)/abbreviations/abbr[@short eq $myshortname]/@long)">
-                <xsl:value-of select="document($doc_abbr)/abbreviations/abbr[@short eq $myshortname]/@long"/>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:value-of select="$myshortname"/>
-            </xsl:otherwise>
-        </xsl:choose>
-    </xsl:function>
-    <xsl:function name="cscie18:changeview">
-        <xsl:param name="qs"/>
-        <xsl:param name="myview"/>
-        <xsl:choose>
-            <xsl:when test="matches($qs,'view=[^&amp;]*')">
-                <xsl:value-of select="replace($qs,'view=[^&amp;]*',concat('view=',$myview))"/>
-            </xsl:when>
-            <xsl:when test="matches($qs,'view=?')">
-                <xsl:value-of select="replace($qs,'view=?',concat('view=',$myview))"/>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:value-of select="concat($qs,'&amp;view=',$myview)"/>
-            </xsl:otherwise>
-        </xsl:choose>
-    </xsl:function>
 </xsl:stylesheet>
