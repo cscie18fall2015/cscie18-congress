@@ -8,7 +8,6 @@ let $xslt-document := doc('../xsl/people-fo.xsl')
 let $parameters := 
 <parameters>
     <param name="view" value="{request:get-parameter('view','table')}"/>
-    <param name="param2" value="value2"/>
 </parameters>
 
 let $xslfo-document  := transform:transform($source-document,$xslt-document,$parameters)
